@@ -1,0 +1,425 @@
+Cross-Cohort Transcriptomic Analysis Report: Differential Expression and
+Comparative Profiling in Myelodysplastic Syndromes
+================
+2026-07-17
+
+# 1. Executive Summary
+
+This report describes the differential expression and comparative
+transcriptomic analysis performed across three independent public
+cohorts of Myelodysplastic Syndromes (MDS), comprising two microarray
+datasets and one RNA-seq dataset, all profiling CD34+ bone marrow
+hematopoietic stem/progenitor cells from MDS patients and healthy
+controls.
+
+The objective of this analysis was to characterize the MDS-associated
+transcriptional signature within each cohort, evaluate its
+reproducibility across independent studies and platforms, and quantify
+the overlap of differentially expressed genes (DEGs) identified across
+the three independent datasets.
+
+The analytical workflow included:
+
+- platform-specific quality control and exploratory data analysis
+- differential expression analysis using statistical models optimized
+  for each technology (limma for microarray, DESeq2 for RNA-seq)
+- diagnostic assessment of latent batch effects (detailed separately in
+  the companion `SVA_assessment_report.md`)
+- functional enrichment through Over-Representation Analysis (ORA) and
+  Gene Set Enrichment Analysis (GSEA)
+- cross-dataset comparison of differential expression statistics and
+  enrichment concordance
+- quantification of overlap between dataset-specific DEGs across the
+  three independent cohorts
+
+Across the three cohorts, a consistent core of dysregulated genes and
+biological pathways was identified, supporting the reproducibility of
+the MDS transcriptional phenotype across independent platforms.
+
+------------------------------------------------------------------------
+
+# 2. Dataset Overview
+
+| Dataset | Platform | Healthy Controls | MDS Patients | Cell Population | Reference |
+|----|----|---:|---:|----|----|
+| GSE19429 | Microarray (Affymetrix HG-U133 Plus 2.0) | 17 | 183 | CD34+ cells | Pellagatti et al., Leukemia 2010 |
+| GSE58831 | Microarray (Affymetrix HG-U133 Plus 2.0) | 17 | 159 | CD34+ cells | Gerstung et al., Nat Commun 2015 |
+| GSE114922 | RNA-seq (Illumina HiSeq 4000) | 8 | 82 | CD34+ cells | Pellagatti et al., Blood 2018 |
+
+All three cohorts profile the same cellular compartment (CD34+
+hematopoietic stem/progenitor cells), enabling a biologically meaningful
+comparison despite differences in transcriptomic technology, sample
+size, and case-control balance.
+
+------------------------------------------------------------------------
+
+# 3. Analytical Workflow
+
+The analytical pipeline was implemented independently for each dataset,
+using platform-appropriate statistical methodology, and integrated only
+at the level of summary statistics and enrichment results.
+
+1.  Raw data import and sample-metadata alignment
+2.  Quality control and exploratory data analysis (PCA, sample-to-sample
+    distance and correlation heatmaps, outlier detection)
+3.  Diagnostic batch effect assessment (SVA; see companion report)
+4.  Differential expression analysis
+    - limma (empirical Bayes, `lmFit` → `contrasts.fit` → `eBayes`) for
+      GSE19429 and GSE58831
+    - DESeq2 (Wald test, negative binomial GLM) for GSE114922
+5.  Multiple testing correction (Benjamini-Hochberg)
+6.  Functional enrichment analysis
+    - ORA against GO, KEGG, Reactome, and MSigDB Hallmark collections
+    - GSEA using pre-ranked, transcriptome-wide statistics (`fgsea`)
+7.  Cross-dataset comparison
+    - correlation of differential expression statistics across shared
+      genes
+    - concordance of enrichment results (NES) across datasets
+8.  Quantification of DEG overlap across independent cohorts
+
+------------------------------------------------------------------------
+
+# 4. Quality Control and Exploratory Data Analysis
+
+Sample-level quality control was performed independently for each
+dataset prior to differential expression analysis.
+
+## 4.1 GSE19429
+
+``` r
+knitr::include_graphics(file.path("../results/GSE19429_microarray/EDA/03_pca_plot.png"))
+```
+
+<img src="../results/GSE19429_microarray/EDA/03_pca_plot.png" alt="" width="3600" />
+
+## 4.2 GSE58831
+
+``` r
+knitr::include_graphics(file.path("../results/GSE58831_microarray/EDA/03_pca_plot.png"))
+```
+
+<img src="../results/GSE58831_microarray/EDA/03_pca_plot.png" alt="" width="3600" />
+
+## 4.3 GSE114922
+
+``` r
+knitr::include_graphics(file.path("../results/GSE114922_rnaseq/EDA/03_pca_plot.png"))
+```
+
+<img src="../results/GSE114922_rnaseq/EDA/03_pca_plot.png" alt="" width="3600" />
+
+------------------------------------------------------------------------
+
+# 5. Differential Expression Analysis
+
+Differential expression was assessed independently for each cohort using
+the platform-appropriate statistical model, comparing MDS patients
+versus healthy controls. Significance thresholds were defined as:
+
+- Adjusted p-value (Benjamini–Hochberg) \< 0.05
+- Absolute log2 fold-change \> 1
+
+## 5.1 Summary of differentially expressed genes
+
+| Dataset   | Total genes tested | DEG (up) | DEG (down) | Total DEG |
+|-----------|-------------------:|---------:|-----------:|----------:|
+| GSE19429  |              40959 |       25 |        113 |       138 |
+| GSE58831  |              33623 |      156 |        250 |       406 |
+| GSE114922 |              32058 |      336 |        422 |       758 |
+
+``` r
+knitr::include_graphics(file.path("../results/Comparison/cross_dataset_deg_summary_bar.png"))
+```
+
+<img src="../results/Comparison/cross_dataset_deg_summary_bar.png" alt="" width="2700" />
+
+## 5.2 Volcano plots
+
+**GSE19429**
+
+``` r
+knitr::include_graphics(file.path("../results/GSE19429_microarray/DEG/08_volcano_plot.png"))
+```
+
+<img src="../results/GSE19429_microarray/DEG/08_volcano_plot.png" alt="" width="2400" />
+
+**GSE58831**
+
+``` r
+knitr::include_graphics(file.path("../results/GSE58831_microarray/DEG/08_volcano_plot.png"))
+```
+
+<img src="../results/GSE58831_microarray/DEG/08_volcano_plot.png" alt="" width="2400" />
+
+**GSE114922**
+
+``` r
+knitr::include_graphics(file.path("../results/GSE114922_rnaseq/DEG/08_volcano_plot.png"))
+```
+
+<img src="../results/GSE114922_rnaseq/DEG/08_volcano_plot.png" alt="" width="2400" />
+
+# 6. Overlap with Curated MDS-Associated Gene Sets
+
+To verify the presence of MDS-related transcriptional signals within
+each dataset, the proportion of dataset-derived genes overlapping with
+curated MDS-associated gene sets was quantified.
+
+MDS-related gene sets were retrieved from the MSigDB C2: Curated Gene
+Sets collection. Gene sets associated with myelodysplastic syndromes,
+myeloid malignancies, leukemia, and hematopoietic disorders were
+selected based on gene set annotations containing the terms: “myelodys”,
+“myeloid”, “leuk”, and “hematopoiet”.
+
+The percentage of genes overlapping with MDS-associated gene sets was
+calculated as the proportion of genes from each dataset-derived gene
+list that were also present in the selected curated MSigDB C2 gene sets.
+Specifically, the overlap percentage was calculated as the number of
+shared genes between the analyzed dataset and the MDS-associated gene
+sets divided by the total number of genes analyzed in the dataset.
+
+## 6.1 Overlap summary
+
+| Dataset   | Overlap (%) |
+|-----------|------------:|
+| GSE19429  |       25.53 |
+| GSE58831  |       29.47 |
+| GSE114922 |       14.74 |
+
+------------------------------------------------------------------------
+
+# 7. Cross-Dataset Comparative Analysis
+
+Differential expression and pathway enrichment results were compared
+across the three independent MDS cohorts to evaluate the reproducibility
+of disease-associated transcriptional programs across different
+experimental platforms.
+
+Datasets were processed independently, and integration was performed
+only at the level of summary statistics, DEG overlap, pathway enrichment
+profiles, and effect-size concordance. This approach avoids direct
+integration of heterogeneous expression matrices while allowing the
+identification of conserved MDS-associated molecular features.
+
+## 7.1 Overlap of up-regulated DEGs
+
+``` r
+knitr::include_graphics(file.path("../results/Comparison/cross_dataset_deg_venn_up.png"))
+```
+
+<img src="../results/Comparison/cross_dataset_deg_venn_up.png" alt="" width="1600" />
+
+## 7.2 Overlap of down-regulated DEGs
+
+``` r
+knitr::include_graphics(file.path("../results/Comparison/cross_dataset_deg_venn_down.png"))
+```
+
+<img src="../results/Comparison/cross_dataset_deg_venn_down.png" alt="" width="1600" />
+
+## 7.3 Hallmark (H) GSEA comparative heatmap
+
+``` r
+knitr::include_graphics(file.path("../results/Comparison/gsea_heatmap_hallmark_H.png"))
+```
+
+<img src="../results/Comparison/gsea_heatmap_hallmark_H.png" alt="" width="1600" />
+
+A substantial fraction of MSigDB Hallmark gene sets showed concordant
+direction of enrichment across all three cohorts. Pathways related to
+innate immune signaling and oxidative/metabolic stress — including
+interferon alpha response, interferon gamma response, heme metabolism,
+reactive oxygen species pathway, oxidative phosphorylation, and fatty
+acid metabolism — were consistently positively enriched (NES \> 0)
+across GSE19429, GSE58831, and GSE114922, reaching statistical
+significance in all three cohorts for several of these gene sets.
+
+Conversely, pathways associated with proliferation and inflammatory
+signaling — TNF-alpha signaling via NF-kB, TGF-beta signaling, E2F
+targets, G2M checkpoint, KRAS signaling up, hypoxia, inflammatory
+response, and IL2/STAT5 signaling — were consistently negatively
+enriched across all three datasets, again with concordant significance
+in most cases.
+
+A smaller subset of gene sets showed platform-dependent discordance: Myc
+targets v1 was positively enriched in the RNA-seq cohort (GSE114922) but
+significantly negatively enriched in both microarray cohorts, and
+several immune-related pathways (protein secretion, p53 pathway,
+complement, IL6/JAK/STAT3 signaling) were significantly negative only in
+GSE114922 while trending positive, but not significant, in the
+microarray datasets.
+
+## 7.4 KEGG GSEA comparative heatmap
+
+``` r
+knitr::include_graphics(file.path("../results/Comparison/gsea_heatmap_kegg.png"))
+```
+
+<img src="../results/Comparison/gsea_heatmap_kegg.png" alt="" width="1600" />
+
+Metabolic KEGG pathways (biosynthesis of cofactors, biosynthesis of
+various nucleotide sugars, mineral absorption, cysteine and methionine
+metabolism, porphyrin metabolism, fatty acid metabolism) were
+consistently positively enriched across all three cohorts, mirroring the
+metabolic/oxidative stress signal observed in the Hallmark collection.
+
+Pathways related to cell cycle and proliferative/oncogenic signaling
+(PI3K-Akt signaling, cell cycle, hippo signaling, cytokine-cytokine
+receptor interaction, TGF-beta signaling pathway, FoxO signaling
+pathway, transcriptional misregulation in cancer) were consistently
+negatively enriched across all three datasets, though statistical
+significance for several of these was driven mainly by GSE114922 and
+GSE19429, with GSE58831 trending in the same direction without reaching
+significance.
+
+A cluster of infection/innate-immunity-related KEGG pathways (NOD-like
+receptor signaling, endocytosis, Yersinia infection, autophagy,
+hepatitis B, tuberculosis, Salmonella infection) showed clear platform
+discordance: significantly negatively enriched in the RNA-seq cohort
+(GSE114922), but positively enriched in both microarray cohorts,
+reaching significance for NOD-like receptor signaling and endocytosis in
+both arrays.
+
+## 7.5 Log2FC concordance — microarray vs microarray (GSE19429 vs GSE58831)
+
+``` r
+knitr::include_graphics(file.path("../results/Comparison/log2FC_concordance_GSE19429_vs_GSE58831.png"))
+```
+
+<img src="../results/Comparison/log2FC_concordance_GSE19429_vs_GSE58831.png" alt="" width="3300" />
+
+The two microarray cohorts showed a tight, near-linear positive
+relationship between gene-level log2 fold-changes, with the fitted
+regression line closely tracking the identity line across the full
+dynamic range. Genes flagged as significant DEGs in at least one of the
+two datasets (highlighted points) predominantly fall along the
+concordant diagonal, including at the extremes of the fold-change
+distribution, indicating strong reproducibility of effect size and
+direction between the two independent microarray studies.
+
+## 7.6 Log2FC concordance — RNA-seq vs microarray (GSE114922 vs GSE19429)
+
+``` r
+knitr::include_graphics(file.path("../results/Comparison/log2FC_concordance_GSE114922_vs_GSE19429.png"))
+```
+
+<img src="../results/Comparison/log2FC_concordance_GSE114922_vs_GSE19429.png" alt="" width="3300" />
+
+The cross-platform comparison between the RNA-seq cohort and GSE19429
+showed a positive but visibly noisier relationship than the
+array-vs-array comparison in Section 8.5, consistent with the expected
+impact of differing dynamic range and technical noise structure between
+sequencing and hybridization-based platforms. The fitted regression line
+remained close to the identity line, and genes flagged as significant
+DEGs (highlighted points) were concentrated in the concordant
+upper-right and lower-left quadrants, supporting directional agreement
+despite the increased dispersion.
+
+## 7.7 Log2FC concordance — RNA-seq vs microarray (GSE114922 vs GSE58831)
+
+``` r
+knitr::include_graphics(file.path("../results/Comparison/log2FC_concordance_GSE114922_vs_GSE58831.png"))
+```
+
+<img src="../results/Comparison/log2FC_concordance_GSE114922_vs_GSE58831.png" alt="" width="3300" />
+
+The comparison between the RNA-seq cohort and GSE58831 mirrored the
+pattern observed in Section 8.6: a positive association with greater
+dispersion than the array-vs-array comparison, but with the regression
+line remaining close to the identity line and significant DEGs
+concentrated along the concordant diagonal. The consistency of this
+pattern across both RNA-seq-vs-microarray comparisons (Sections 8.6 and
+8.7) indicates that the reduced concordance relative to Section 8.5 is
+attributable to platform-specific technical factors rather than to
+instability specific to either individual microarray cohort.
+
+------------------------------------------------------------------------
+
+# 8. Biological Interpretation
+
+The consistent identification of overlapping differentially expressed
+genes and concordant pathway enrichment across three independent cohorts
+— generated on different transcriptomic platforms, in different
+laboratories, and at different times — supports the robustness of the
+observed MDS transcriptional signature. The quantified overlap with
+curated MDS-associated gene signatures further substantiates the
+biological relevance of the dataset-specific DEG lists beyond
+platform-specific technical variation.
+
+------------------------------------------------------------------------
+
+# 9. Reproducibility
+
+All analyses were performed in a standardized R environment to ensure
+full computational reproducibility.
+
+Software environment:
+
+- R version: 4.6.0
+- limma: 3.68.4
+- DESeq2: 1.52.0
+- clusterProfiler: 4.20.0
+- ReactomePA: 1.56.0
+- fgsea: 1.38.0
+- msigdbr: 26.1.0
+- ComplexHeatmap: 2.28.0
+
+A complete session information log is stored in the `results/logs/`
+directory of the project repository, enabling full reproducibility of
+the analysis environment. Reproducibility of stochastic steps was
+ensured through a fixed random seed (`set.seed(1234)`).
+
+------------------------------------------------------------------------
+
+# 10. Limitations and Considerations
+
+- The three cohorts differ substantially in sample size and case-control
+  balance (notably GSE114922, with only 8 healthy controls versus 82 MDS
+  patients), which may affect statistical power and the precision of
+  effect size estimates.
+
+- Cross-platform comparison (microarray vs RNA-seq) is inherently
+  limited by differences in dynamic range, probe/transcript annotation,
+  and technical noise structure; comparisons were therefore restricted
+  to shared, unambiguously mapped genes.
+
+- Diagnostic assessment indicated instability in batch effect correction
+  via SVA; as detailed in the companion SVA_assessment_report.md,
+  surrogate variables were not incorporated into the final differential
+  expression models. Reported results therefore reflect unadjusted
+  models, with cross-cohort replication used as an indirect, qualitative
+  line of support for biological validity.
+
+- The overlap analysis with curated MDS-associated gene sets is
+  influenced by the composition and annotation of the selected MSigDB C2
+  collection, which includes heterogeneous myeloid, leukemia,
+  hematopoietic, and disease-related transcriptional programs.
+  Therefore, this analysis was considered a supportive biological
+  consistency assessment rather than a stand-alone validation metric.
+
+------------------------------------------------------------------------
+
+# 11. Deliverables
+
+This analysis produces a complete set of reproducible outputs,
+including:
+
+- quality-controlled, dataset-specific expression objects
+- differential expression result tables (per dataset)
+- functional enrichment result tables (ORA and GSEA, per dataset)
+- cross-dataset correlation and enrichment concordance results
+- MDS gene signature overlap quantification
+- publication-ready visualization figures
+
+------------------------------------------------------------------------
+
+# 12. Conclusion
+
+This workflow provides a reproducible, cross-platform framework for
+characterizing and validating the transcriptional signature of
+Myelodysplastic Syndromes across independent cohorts. The consistent
+overlap of differentially expressed genes and enrichment results across
+three independent studies, together with the quantified concordance with
+curated MDS-associated gene signatures, supports the biological
+reproducibility of the identified transcriptional alterations
+independent of the sequencing platform used.

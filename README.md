@@ -6,22 +6,7 @@ Syndromes: Comparative RNA-seq and Microarray Workflows
 ![Transcriptomics](https://img.shields.io/badge/Transcriptomics-RNA--seq%20%7C%20Microarray-purple)
 ![DESeq2](https://img.shields.io/badge/RNA--seq-DESeq2-darkgreen)
 ![limma](https://img.shields.io/badge/Microarray-limma-darkred)
-![Status](https://img.shields.io/badge/status-work%20in%20progress-orange)
-
-------------------------------------------------------------------------
-
-# 🚧 Project Status
-
-This repository is currently a work in progress.
-
-The analytical workflow has been implemented for three independent MDS
-transcriptomic cohorts, including two microarray datasets and one
-RNA-seq dataset.
-
-Dataset-specific analytical reports will be generated after completion
-of each individual analysis. A final comparative report will summarize
-conserved transcriptional signatures and biological pathways across
-platforms.
+![Status](https://img.shields.io/badge/status-finished-brightgreen)
 
 ------------------------------------------------------------------------
 
@@ -141,13 +126,68 @@ myeloid leukemia.
 
 # 🔬 Statistical Framework
 
-| Analysis                   | Microarray         | RNA-seq            |
-|----------------------------|--------------------|--------------------|
-| Differential Expression    | limma              | DESeq2             |
-| Multiple Testing           | Benjamini-Hochberg | Benjamini-Hochberg |
-| ORA                        | ✓                  | ✓                  |
-| GSEA                       | ✓                  | ✓                  |
-| Comparative Interpretation | ✓                  | ✓                  |
+| Analysis                 | Microarray         | RNA-seq            |
+|--------------------------|--------------------|--------------------|
+| Differential Expression  | limma              | DESeq2             |
+| Multiple Testing         | Benjamini-Hochberg | Benjamini-Hochberg |
+| ORA                      | ✓                  | ✓                  |
+| GSEA                     | ✓                  | ✓                  |
+| Cross-Dataset Comparison | ✓                  | ✓                  |
+
+------------------------------------------------------------------------
+
+# 🧪 Batch Effect Assessment (SVA)
+
+Surrogate Variable Analysis was performed diagnostically on all three
+cohorts to evaluate the presence of latent, unmodeled technical
+variation prior to differential expression testing. Two estimation
+strategies were compared, `be` and `leek`, to assess the stability of
+the surrogate variable estimates independently of the differential
+expression model.
+
+Across datasets, the two methods did not converge on consistent
+estimates. For GSE114922, the `leek` method estimated a large number of
+surrogate variables relative to sample size, which destabilized the
+downstream model. For GSE19429, correction with the `be` method visibly
+reduced the proportion of variance attributable to biological signal,
+along with a marked reduction in the number of differentially expressed
+genes, consistent with overcorrection rather than genuine noise removal.
+
+Given this instability, **SVA-adjusted surrogate variables were not
+incorporated into the final differential expression models**.
+`removeBatchEffect()` outputs were used exclusively for visualization
+purposes (PCA, heatmaps) and never as input to statistical testing.
+Baseline (unadjusted) models were retained as the definitive results for
+each dataset.
+
+As an indirect line of support for this decision, the strength of
+biological replication observed across the three independent cohorts —
+generated on different platforms, in different laboratories, at
+different times — was taken as evidence that the unadjusted models
+capture reproducible disease-associated signal rather than being
+dominated by technical variation. This is presented as a qualitative,
+cross-dataset argument rather than a formal quantitative diagnostic of
+batch effect magnitude.
+
+------------------------------------------------------------------------
+
+# 🔗 Cross-Dataset Comparative Analysis
+
+Differential expression and enrichment results were compared across the
+three independent cohorts to assess reproducibility of the MDS
+transcriptional signature across platforms. Datasets were analyzed
+independently throughout the pipeline; integration was performed
+exclusively at the level of summary statistics and enrichment results,
+without merging raw or normalized expression matrices across platforms.
+
+Two complementary comparison strategies were used:
+
+- **Differential expression correlation**: pairwise correlation of
+  gene-level statistics (e.g., log-fold-change or moderated
+  t-statistics) across shared genes between datasets.
+- **Enrichment concordance**: overlap and correlation of Normalized
+  Enrichment Scores (NES) across datasets for shared gene sets (KEGG,
+  MSigDB Hallmark), visualized as comparative heatmaps.
 
 ------------------------------------------------------------------------
 
@@ -173,6 +213,12 @@ MDS-integrative-transcriptomics/
 │   │
 │   └── GSE19429_microarray/
 │
+├── scripts_sva/
+│   ├── Comparison_DEG_sva.R
+│   ├── DEG_sva_GSE19429.R
+│   ├── DEG_sva_GSE58831.R
+│   ├── DEG_sva_GSE114922.R
+│
 ├── results/
 │   │
 │   ├── GSE114922_RNAseq/
@@ -180,10 +226,30 @@ MDS-integrative-transcriptomics/
 │   ├── GSE58831_microarray/
 │   │
 │   └── GSE19429_microarray/
+│   │
+│   └── Comparison/
+│   │
+│   └── logs/
+│   │
+│   └── tables/
 │
-├── logs/
+├── results_sva/
+│   │
+│   ├── GSE114922_RNAseq/
+│   │
+│   ├── GSE58831_microarray/
+│   │
+│   └── GSE19429_microarray/
+│   │
+│   └── logs/
+│   │
+│   └── tables/
 │
-└── tables/
+├── Report/
+│   ├── Transcriptomic_analysis_report.md
+│   ├── SVA_assessment_report.md
+│
+└── 
 ```
 
 ------------------------------------------------------------------------
@@ -213,21 +279,6 @@ principles:
 - automated session information reporting
 - transparent analytical workflow from preprocessing to biological
   interpretation
-
-------------------------------------------------------------------------
-
-# 🔮 Future Methodological Extensions
-
-The current analytical framework analyzes each dataset independently;
-therefore, no explicit batch effect correction was applied.
-
-As a future extension, **Surrogate Variable Analysis (SVA)** can be
-incorporated to estimate hidden technical sources of variation within
-each cohort before differential expression analysis. Repeating the
-workflow after SVA correction would allow evaluation of the robustness
-of differential expression and pathway enrichment results with respect
-to latent batch effects, providing an additional level of methodological
-validation.
 
 ------------------------------------------------------------------------
 
@@ -294,7 +345,8 @@ The framework demonstrates the ability to:
 - Bioconductor / CRAN packages: GEOquery (v2.80.0), hgu133plus2.db
   (v3.13.0), limma (v3.68.4), DESeq2 (v1.52.0), clusterProfiler
   (v4.20.0), ReactomePA (v1.56.0), org.Hs.eg.db (v3.23.1), msigdbr
-  (v26.1.0), fgsea (v1.38.0), pathview (v1.52.0)
+  (v26.1.0), fgsea (v1.38.0), pathview (v1.52.0), ComplexHeatmap
+  (v2.28.0), sva (v3.60.0)
 
 ------------------------------------------------------------------------
 

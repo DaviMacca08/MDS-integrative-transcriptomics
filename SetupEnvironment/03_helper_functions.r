@@ -5,7 +5,7 @@
 # ---------------------------------------------------------
 # Save ggplot / patchwork objects
 # ---------------------------------------------------------
-save_plot <- function(plot, filename, dir, width = 12, height = 8, dpi = 300) {
+save_plot <- function(plot, filename, dir, width = 12, height = 8, dpi = 300, bg = NULL) {
   
   if (is.null(plot)) {
     message("No plot to save: ", filename)

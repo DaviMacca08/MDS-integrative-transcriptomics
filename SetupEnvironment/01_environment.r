@@ -11,6 +11,10 @@ suppressPackageStartupMessages({
   library(patchwork)
   library(RColorBrewer)
   
+  # Batch effects corrections
+  library(sva)
+  
+  
   # GEO data acquisition & annotation
   library(GEOquery)
   library(hgu133plus2.db)
@@ -25,6 +29,7 @@ suppressPackageStartupMessages({
   library(pheatmap)
   library(ComplexHeatmap)
   library(circlize)
+  library(grid)
   
   # Functional enrichment analysis
   library(clusterProfiler)
