@@ -171,10 +171,7 @@ vsdata_df <- assay(vsdata)
 
 # =========================================================
 #     SVA DIAGNOSTIC CORRECTION (RNA-seq) - GSE114922
-#     Metodi: Buja-Eyuboglu (BE) e Leek
-#     Produce deg_table_sva_be / deg_table_sva_leek e i
-#     rispettivi sig_deg, per confronto con il modello
-#     senza correzione (dds/res, già calcolati sopra).
+# Methods: Buja and Eyuboglu Method and Leek
 # =========================================================
 
 message("[SVA] Extracting normalized counts...")
@@ -231,9 +228,9 @@ svseq_leek <- tryCatch({
 })
 
 
-# ---------------------
-# PCA diagnostica 
-# ---------------------
+# -----------
+# PCA plot
+# -----------
 
 make_sva_pca <- function(mat, covariates, title_suffix) {
   
@@ -375,9 +372,9 @@ if (!is.null(svseq_leek)) {
 } else message("NULL")
 
 
-# ---------------------------------------------------------
-# Confronto finale a tre vie
-# ---------------------------------------------------------
+# -------------
+# Summary
+# -------------
 
 n_deg_none <- sum(res$padj < 0.05 & abs(res$log2FoldChange) > 1, na.rm = TRUE)
 

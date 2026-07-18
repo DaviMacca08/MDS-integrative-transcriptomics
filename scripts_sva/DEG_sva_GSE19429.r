@@ -85,29 +85,6 @@ pData(gse)$group <- group
 message("[META] Sample distribution:")
 print(table(pData(gse)$group))
 
-# Disease subtype (FAB subtype) - used for EDA color coding
-
-subtype_col <- grep("disease subtype", colnames(meta), ignore.case = TRUE, value = TRUE)
-
-if (length(subtype_col) == 1) {
-  
-  subtype_raw <- as.character(meta[[subtype_col]])
-  subtype_clean <- sub("^disease subtype:\\s*", "", subtype_raw)
-  subtype_clean <- ifelse(is.na(subtype_clean) | subtype_clean == "", "HC", subtype_clean)
-  subtype_clean <- factor(subtype_clean)
-  pData(gse)$subtype <- factor(subtype_clean)
-  
-  message("[META] Disease subtype column processed: ", subtype_col)
-  print(table(pData(gse)$subtype, useNA = "ifany"))
-  
-} else {
-  
-  message("No disease subtype column found - subtype-based EDA will be skipped.")
-  pData(gse)$subtype <- factor("Unknown", levels = "Unknown")
-  
-}
-
-subtype <- pData(gse)$subtype
 
 # =========================================================
 #                  Quality Control 
@@ -253,8 +230,7 @@ pca_var <- pca_res$sdev^2 / sum(pca_res$sdev^2)
 pca_df <- data.frame(
   PC1 = pca_res$x[, 1],
   PC2 = pca_res$x[, 2],
-  group = group,
-  subtype = subtype
+  group = group
 )
 
 pca_var_percent <- round(100 * pca_var / sum(pca_var), 1)
@@ -283,8 +259,7 @@ pca_var <- pca_res$sdev^2 / sum(pca_res$sdev^2)
 pca_df <- data.frame(
   PC1 = pca_res$x[, 1],
   PC2 = pca_res$x[, 2],
-  group = group,
-  subtype = subtype
+  group = group
 )
 
 pca_var_percent <- round(100 * pca_var / sum(pca_var), 1)
