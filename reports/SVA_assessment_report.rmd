@@ -1,15 +1,28 @@
 ---
 title: "Surrogate Variable Analysis (SVA) Assessment Report: Diagnostic Evaluation of Latent Batch Effects Across MDS Cohorts"
 author: "Bioinformatics Analysis Service"
-date: "2026-07-17"
+date: "`r Sys.Date()`"
 output:
   html_document:
     toc: true
-    toc_float: true
-    number_sections: true
+    toc_depth: 2
+    number_sections: false
+    theme: readable
 editor_options: 
   markdown: 
     wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center",
+  fig.width = 8,
+  fig.height = 5
+)
+```
 ---
 
 # 1. Executive Summary

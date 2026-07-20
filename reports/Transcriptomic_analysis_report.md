@@ -1,7 +1,7 @@
 Cross-Cohort Transcriptomic Analysis Report: Differential Expression and
 Comparative Profiling in Myelodysplastic Syndromes
 ================
-2026-07-17
+2026-07-20
 
 # 1. Executive Summary
 
@@ -86,27 +86,15 @@ dataset prior to differential expression analysis.
 
 ## 4.1 GSE19429
 
-``` r
-knitr::include_graphics(file.path("../results/GSE19429_microarray/EDA/03_pca_plot.png"))
-```
-
-<img src="../results/GSE19429_microarray/EDA/03_pca_plot.png" alt="" width="3600" />
+<img src="../results/GSE19429_microarray/EDA/03_pca_plot.png" alt="" width="3600" style="display: block; margin: auto;" />
 
 ## 4.2 GSE58831
 
-``` r
-knitr::include_graphics(file.path("../results/GSE58831_microarray/EDA/03_pca_plot.png"))
-```
-
-<img src="../results/GSE58831_microarray/EDA/03_pca_plot.png" alt="" width="3600" />
+<img src="../results/GSE58831_microarray/EDA/03_pca_plot.png" alt="" width="3600" style="display: block; margin: auto;" />
 
 ## 4.3 GSE114922
 
-``` r
-knitr::include_graphics(file.path("../results/GSE114922_rnaseq/EDA/03_pca_plot.png"))
-```
-
-<img src="../results/GSE114922_rnaseq/EDA/03_pca_plot.png" alt="" width="3600" />
+<img src="../results/GSE114922_rnaseq/EDA/03_pca_plot.png" alt="" width="3600" style="display: block; margin: auto;" />
 
 ------------------------------------------------------------------------
 
@@ -127,37 +115,21 @@ versus healthy controls. Significance thresholds were defined as:
 | GSE58831  |              33623 |      156 |        250 |       406 |
 | GSE114922 |              32058 |      336 |        422 |       758 |
 
-``` r
-knitr::include_graphics(file.path("../results/Comparison/cross_dataset_deg_summary_bar.png"))
-```
-
-<img src="../results/Comparison/cross_dataset_deg_summary_bar.png" alt="" width="2700" />
+<img src="../results/Comparison/cross_dataset_deg_summary_bar.png" alt="" width="2700" style="display: block; margin: auto;" />
 
 ## 5.2 Volcano plots
 
 **GSE19429**
 
-``` r
-knitr::include_graphics(file.path("../results/GSE19429_microarray/DEG/08_volcano_plot.png"))
-```
-
-<img src="../results/GSE19429_microarray/DEG/08_volcano_plot.png" alt="" width="2400" />
+<img src="../results/GSE19429_microarray/DEG/08_volcano_plot.png" alt="" width="2400" style="display: block; margin: auto;" />
 
 **GSE58831**
 
-``` r
-knitr::include_graphics(file.path("../results/GSE58831_microarray/DEG/08_volcano_plot.png"))
-```
-
-<img src="../results/GSE58831_microarray/DEG/08_volcano_plot.png" alt="" width="2400" />
+<img src="../results/GSE58831_microarray/DEG/08_volcano_plot.png" alt="" width="2400" style="display: block; margin: auto;" />
 
 **GSE114922**
 
-``` r
-knitr::include_graphics(file.path("../results/GSE114922_rnaseq/DEG/08_volcano_plot.png"))
-```
-
-<img src="../results/GSE114922_rnaseq/DEG/08_volcano_plot.png" alt="" width="2400" />
+<img src="../results/GSE114922_rnaseq/DEG/08_volcano_plot.png" alt="" width="2400" style="display: block; margin: auto;" />
 
 # 6. Overlap with Curated MDS-Associated Gene Sets
 
@@ -203,27 +175,15 @@ identification of conserved MDS-associated molecular features.
 
 ## 7.1 Overlap of up-regulated DEGs
 
-``` r
-knitr::include_graphics(file.path("../results/Comparison/cross_dataset_deg_venn_up.png"))
-```
-
-<img src="../results/Comparison/cross_dataset_deg_venn_up.png" alt="" width="1600" />
+<img src="../results/Comparison/cross_dataset_deg_venn_up.png" alt="" width="1600" style="display: block; margin: auto;" />
 
 ## 7.2 Overlap of down-regulated DEGs
 
-``` r
-knitr::include_graphics(file.path("../results/Comparison/cross_dataset_deg_venn_down.png"))
-```
-
-<img src="../results/Comparison/cross_dataset_deg_venn_down.png" alt="" width="1600" />
+<img src="../results/Comparison/cross_dataset_deg_venn_down.png" alt="" width="1600" style="display: block; margin: auto;" />
 
 ## 7.3 Hallmark (H) GSEA comparative heatmap
 
-``` r
-knitr::include_graphics(file.path("../results/Comparison/gsea_heatmap_hallmark_H.png"))
-```
-
-<img src="../results/Comparison/gsea_heatmap_hallmark_H.png" alt="" width="1600" />
+<img src="../results/Comparison/gsea_heatmap_hallmark_H.png" alt="" width="1600" style="display: block; margin: auto;" />
 
 A substantial fraction of MSigDB Hallmark gene sets showed concordant
 direction of enrichment across all three cohorts. Pathways related to
@@ -251,11 +211,7 @@ microarray datasets.
 
 ## 7.4 KEGG GSEA comparative heatmap
 
-``` r
-knitr::include_graphics(file.path("../results/Comparison/gsea_heatmap_kegg.png"))
-```
-
-<img src="../results/Comparison/gsea_heatmap_kegg.png" alt="" width="1600" />
+<img src="../results/Comparison/gsea_heatmap_kegg.png" alt="" width="1600" style="display: block; margin: auto;" />
 
 Metabolic KEGG pathways (biosynthesis of cofactors, biosynthesis of
 various nucleotide sugars, mineral absorption, cysteine and methionine
@@ -282,11 +238,7 @@ both arrays.
 
 ## 7.5 Log2FC concordance — microarray vs microarray (GSE19429 vs GSE58831)
 
-``` r
-knitr::include_graphics(file.path("../results/Comparison/log2FC_concordance_GSE19429_vs_GSE58831.png"))
-```
-
-<img src="../results/Comparison/log2FC_concordance_GSE19429_vs_GSE58831.png" alt="" width="3300" />
+<img src="../results/Comparison/log2FC_concordance_GSE19429_vs_GSE58831.png" alt="" width="3300" style="display: block; margin: auto;" />
 
 The two microarray cohorts showed a tight, near-linear positive
 relationship between gene-level log2 fold-changes, with the fitted
@@ -299,11 +251,7 @@ direction between the two independent microarray studies.
 
 ## 7.6 Log2FC concordance — RNA-seq vs microarray (GSE114922 vs GSE19429)
 
-``` r
-knitr::include_graphics(file.path("../results/Comparison/log2FC_concordance_GSE114922_vs_GSE19429.png"))
-```
-
-<img src="../results/Comparison/log2FC_concordance_GSE114922_vs_GSE19429.png" alt="" width="3300" />
+<img src="../results/Comparison/log2FC_concordance_GSE114922_vs_GSE19429.png" alt="" width="3300" style="display: block; margin: auto;" />
 
 The cross-platform comparison between the RNA-seq cohort and GSE19429
 showed a positive but visibly noisier relationship than the
@@ -317,11 +265,7 @@ despite the increased dispersion.
 
 ## 7.7 Log2FC concordance — RNA-seq vs microarray (GSE114922 vs GSE58831)
 
-``` r
-knitr::include_graphics(file.path("../results/Comparison/log2FC_concordance_GSE114922_vs_GSE58831.png"))
-```
-
-<img src="../results/Comparison/log2FC_concordance_GSE114922_vs_GSE58831.png" alt="" width="3300" />
+<img src="../results/Comparison/log2FC_concordance_GSE114922_vs_GSE58831.png" alt="" width="3300" style="display: block; margin: auto;" />
 
 The comparison between the RNA-seq cohort and GSE58831 mirrored the
 pattern observed in Section 8.6: a positive association with greater

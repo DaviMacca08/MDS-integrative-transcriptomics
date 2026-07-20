@@ -2,7 +2,9 @@ Surrogate Variable Analysis (SVA) Assessment Report: Diagnostic
 Evaluation of Latent Batch Effects Across MDS Cohorts
 ================
 Bioinformatics Analysis Service
-2026-07-17
+2026-07-20
+
+------------------------------------------------------------------------
 
 # 1. Executive Summary
 
@@ -95,27 +97,15 @@ conservative nature of this specific estimate for this dataset.
 
 **PCA before SVA correction**
 
-``` r
-knitr::include_graphics(file.path("../results/GSE19429_microarray/EDA/03_pca_plot.png"))
-```
-
-<img src="../results/GSE19429_microarray/EDA/03_pca_plot.png" alt="" width="3600" />
+<img src="../results/GSE19429_microarray/EDA/03_pca_plot.png" alt="" width="3600" style="display: block; margin: auto;" />
 
 **PCA after SVA correction (`be`)**
 
-``` r
-knitr::include_graphics(file.path("../results_sva/GSE19429_microarray/pca_plot_SVA_be.png"))
-```
-
-<img src="../results_sva/GSE19429_microarray/pca_plot_SVA_be.png" alt="" width="3600" />
+<img src="../results_sva/GSE19429_microarray/pca_plot_SVA_be.png" alt="" width="3600" style="display: block; margin: auto;" />
 
 **PCA after SVA correction (`leek`)**
 
-``` r
-knitr::include_graphics(file.path("../results_sva/GSE19429_microarray/pca_plot_SVA_leek.png"))
-```
-
-<img src="../results_sva/GSE19429_microarray/pca_plot_SVA_leek.png" alt="" width="3600" />
+<img src="../results_sva/GSE19429_microarray/pca_plot_SVA_leek.png" alt="" width="3600" style="display: block; margin: auto;" />
 
 ## 4.2 GSE58831 (Microarray)
 
@@ -146,27 +136,15 @@ rather than a genuine improvement in the recovery of biological signal.
 
 **PCA before SVA correction**
 
-``` r
-knitr::include_graphics(file.path("../results/GSE58831_microarray/EDA/03_pca_plot.png"))
-```
-
-<img src="../results/GSE58831_microarray/EDA/03_pca_plot.png" alt="" width="3600" />
+<img src="../results/GSE58831_microarray/EDA/03_pca_plot.png" alt="" width="3600" style="display: block; margin: auto;" />
 
 **PCA after SVA correction (`be`)**
 
-``` r
-knitr::include_graphics(file.path("../results_sva/GSE58831_microarray/pca_plot_SVA_be.png"))
-```
-
-<img src="../results_sva/GSE58831_microarray/pca_plot_SVA_be.png" alt="" width="3600" />
+<img src="../results_sva/GSE58831_microarray/pca_plot_SVA_be.png" alt="" width="3600" style="display: block; margin: auto;" />
 
 **PCA after SVA correction (`leek`)**
 
-``` r
-knitr::include_graphics(file.path("../results_sva/GSE58831_microarray/pca_plot_SVA_leek.png"))
-```
-
-<img src="../results_sva/GSE58831_microarray/pca_plot_SVA_leek.png" alt="" width="3600" />
+<img src="../results_sva/GSE58831_microarray/pca_plot_SVA_leek.png" alt="" width="3600" style="display: block; margin: auto;" />
 
 ## 4.3 GSE114922 (RNA-seq)
 
@@ -197,19 +175,11 @@ as further evidence of instability in Section 7.
 
 **PCA before SVA correction**
 
-``` r
-knitr::include_graphics(file.path("../results/GSE114922_rnaseq/EDA/03_pca_plot.png"))
-```
-
-<img src="../results/GSE114922_rnaseq/EDA/03_pca_plot.png" alt="" width="3600" />
+<img src="../results/GSE114922_rnaseq/EDA/03_pca_plot.png" alt="" width="3600" style="display: block; margin: auto;" />
 
 **PCA after SVA correction (`be`)**
 
-``` r
-knitr::include_graphics(file.path("../results_sva/GSE114922_rnaseq/pca_plot_SVA_be.png"))
-```
-
-<img src="../results_sva/GSE114922_rnaseq/pca_plot_SVA_be.png" alt="" width="3600" />
+<img src="../results_sva/GSE114922_rnaseq/pca_plot_SVA_be.png" alt="" width="3600" style="display: block; margin: auto;" />
 
 ### Summary of estimated surrogate variables
 
@@ -226,11 +196,7 @@ of differentially expressed genes obtained under the baseline
 (unadjusted) model was compared against the models adjusted using the
 `be` and `leek` surrogate variables, for each dataset.
 
-``` r
-knitr::include_graphics(file.path("../results_sva/cross_dataset_deg_summary_sva_bar.png"))
-```
-
-<img src="../results_sva/cross_dataset_deg_summary_sva_bar.png" alt="" width="3300" />
+<img src="../results_sva/cross_dataset_deg_summary_sva_bar.png" alt="" width="3300" style="display: block; margin: auto;" />
 
 ------------------------------------------------------------------------
 

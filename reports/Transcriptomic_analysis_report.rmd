@@ -1,13 +1,28 @@
 ---
 title: "Cross-Cohort Transcriptomic Analysis Report: Differential Expression and Comparative Profiling in Myelodysplastic Syndromes"
 subtitle: "Bioinformatics Analysis Service"
-date: "2026-07-17"
-output: github_document
-
-editor_options:
-  markdown:
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: false
+    theme: readable
+editor_options: 
+  markdown: 
     wrap: 72
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center",
+  fig.width = 8,
+  fig.height = 5
+)
+```
 
 # 1. Executive Summary
 
@@ -171,11 +186,11 @@ selected based on gene set annotations containing the terms: "myelodys",
 "myeloid", "leuk", and "hematopoiet".
 
 The percentage of genes overlapping with MDS-associated gene sets was
-calculated as the proportion of genes from each dataset-derived gene list
-that were also present in the selected curated MSigDB C2 gene sets.
-Specifically, the overlap percentage was calculated as the number of shared
-genes between the analyzed dataset and the MDS-associated gene sets divided
-by the total number of genes analyzed in the dataset.
+calculated as the proportion of genes from each dataset-derived gene
+list that were also present in the selected curated MSigDB C2 gene sets.
+Specifically, the overlap percentage was calculated as the number of
+shared genes between the analyzed dataset and the MDS-associated gene
+sets divided by the total number of genes analyzed in the dataset.
 
 ## 6.1 Overlap summary
 
